@@ -1,0 +1,15 @@
+.timeslot {
+    border: 0.05px solid grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+    width: 65vw;
+    margin: 1px;
+}
+#time {
+    width: 100px
+}
+p {
+    width: 200px;
+}

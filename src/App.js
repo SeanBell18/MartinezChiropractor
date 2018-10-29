@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom'
+import './reset.css'
 import './App.css';
-import axios from 'axios'
 import AdminOverview from './components/Overview/AdminOverview'
 import UserOverview from './components/Overview/UserOverview'
 import Calendar from './components/Calendar/Calendar'
@@ -21,6 +21,7 @@ class App extends Component {
       isUser: false
     }
     this.updateLogin = this.updateLogin.bind(this)
+    this.resetState = this.resetState.bind(this)
   }
   updateLogin(val) {
     if (val === true) {
@@ -28,17 +29,22 @@ class App extends Component {
     } else {
       this.setState({ isUser: true })
     }
-    console.log(this.state)
+  }
+  resetState () {
+    this.setState ({
+      isAdmin: false,
+      isUser: false
+    })
   }
   render() {
     return (
       <HashRouter >
         <div>
-          <Nav isAdmin={this.state.isAdmin} isUser={this.state.isUser} confirmAdmin={this.confirmAdmin} />
+          <Nav isAdmin={this.state.isAdmin} isUser={this.state.isUser}  resetState={this.resetState}/>
           {this.state.isAdmin ? (
             <Switch>
               <Route path='/adminOverview' component={AdminOverview} />
-              <Route path='/calendar' render={() =><Calendar updateLogin={this.updateLogin}/>} />
+              <Route path='/calendar' render={() => <Calendar updateLogin={this.updateLogin} isAdmin = {this.state.isAdmin} isUser = {this.state.isUser}/>} />
               <Route path='/store' component={Store} />
               <Route exact path='/' component={Home} />
               <Route exact path='/about' component={About} />
@@ -50,7 +56,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/' component={Home} />
               <Route path='/overview' component={UserOverview} />
-              <Route path='/calendar' component={Calendar} />
+              <Route path='/calendar' render={() => <Calendar updateLogin={this.updateLogin} isAdmin = {this.state.isAdmin} isUser = {this.state.isUser}/>} />
               <Route path='/store' component={Store} />
               <Route exact path='/about' component={About} />
               <Route path='/about/first_visit' component={First_Visit} />
@@ -64,7 +70,7 @@ class App extends Component {
                   <Route path='/about/first_visit' component={First_Visit} />
                   <Route path='/about/staff' component={Staff} />
                   <Route path='/about/contact' component={Contact} />
-                  <Route path='/calendar' render={() => <Calendar updateLogin={this.updateLogin} isAdbmin = {this.state.isAdmin} isUser = {this.state.isUser}/>} />
+                  <Route path='/calendar' render={() => <Calendar updateLogin={this.updateLogin} isAdmin = {this.state.isAdmin} isUser = {this.state.isUser}/>} />
                 </Switch>
               )}
         </div>

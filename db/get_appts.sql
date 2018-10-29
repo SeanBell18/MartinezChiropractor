@@ -1,0 +1,1 @@
+SELECT * FROM appointment WHERE appt_date >= $1

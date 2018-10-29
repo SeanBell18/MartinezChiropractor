@@ -1,0 +1,22 @@
+nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: blue;
+    height: 26px;
+    font-size: 24px;
+}
+.drop-content {
+    height: 26px;
+    overflow:hidden;
+    transition: 1s;
+    background-color: blue;
+    z-index: 10;
+}
+.drop-content:hover {
+    height: 110px;
+}
+#login {
+    float: right;
+    margin-right: 10px;
+    margin-top: 4px;
+}

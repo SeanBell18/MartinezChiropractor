@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const axios = require('axios')
 const massive = require('massive')
+const moment = require('moment')
 
 const app = express();
 app.use(bodyParser.json())
@@ -79,6 +80,33 @@ app.get('/api/isAdmin', (req, res) => {
     }
 })
 
+app.get('/api/appts/:date', async (req, res) => {
+    let date = req.params.date
+    const db = app.get('db')
+    let arr = await db.get_appts(date)
+    res.status(200).send(arr)
+})
+
+app.post('/api/requestAppt', (req, res) => {
+    const db = app.get('db')
+    let { day, time } = req.body
+    let { client_id } = req.session.user
+    let today = moment().format('YYYY-MM-DD')
+    console.log('date and time:', day, time)
+
+    db.create_invoice([client_id, today]).then(invoice => {
+        console.log('invoice: ', invoice[0].invoice_id)
+        db.request_appt([client_id, invoice[0].invoice_id, day, time])
+            .then(() =>
+                db.get_appts([today])
+                    .then(allAppts => {
+                        console.log('allAppts: ', allAppts)
+                        res.status(200).send(allAppts)
+                    })
+            )
+    })
+})
+
 // app.get('/api/user-data', authBypass, (req, res) => {
 //     if (req.session.user) {
 //         res.status(200).send(req.session.user)
@@ -87,9 +115,9 @@ app.get('/api/isAdmin', (req, res) => {
 //     }
 // })
 
-// app.get('/auth/logout', (req, res) => {
-//     req.session.destroy();
-//     res.redirect('http://localhost:3000/#/')
-// })
+app.get('/auth/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('http://localhost:3000/#/about/first_visit')
+})
 
 app.listen(SERVER_PORT, () => console.log(`I have eyes on port ${SERVER_PORT}`))
