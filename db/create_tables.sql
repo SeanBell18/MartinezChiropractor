@@ -9,7 +9,7 @@ CREATE TABLE payment (
     payment_id serial primary key, 
     client_id integer references client(client_id), 
     amount float(2),
-    payment_date date
+    payment_date varchar(10)
 );
 CREATE TABLE product (
     product_id serial primary key, 
@@ -22,7 +22,7 @@ CREATE TABLE invoice (
     item_id integer references product(product_id),
     qty integer, 
     client_id integer references client(client_id),
-    invoice_date date
+    invoice_date varchar(10)
 );
 CREATE TABLE appointment (
     appt_id serial primary key,

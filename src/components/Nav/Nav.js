@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './Nav.css'
 import axios from 'axios'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 class Nav extends Component {
     login() {
@@ -15,8 +15,8 @@ class Nav extends Component {
     }
     logout = () => {
         axios.get('/auth/logout').then(res => {
-                this.props.resetState()
-            })
+            this.props.resetState()
+        })
         this.props.history.push('/')
     }
     render() {
@@ -28,49 +28,48 @@ class Nav extends Component {
                         <Link to='/' ><li>Home</li></Link>
                         <Link to='/overview'><li>Overview</li></Link>
                         <Link to='/calendar'><li>Calendar</li></Link>
-                        {/* <Link to= '/'><li>User Info</li></Link> */}
                         <li className='drop-content'>About
-                        <ul >
+                            <ul >
                                 <Link to='/about/staff'><li>Staff</li></Link>
-                                <li>First Visit</li>
-                                <li>Contact</li>
+                                <Link to='/about/first_visit'><li>First Visit</li></Link>
+                                <Link to='/about/contact'><li>Contact</li></Link>
                             </ul>
                         </li>
                         <li>Store</li>
                     </nav>
-                    <button onClick ={this.logout}>Log out</button>
+                    <button onClick={this.logout} id='login'>Log out</button>
                 </div>
             )
         } else if (isUser) {
             return (
                 <div>
                     <nav>
-                        <li>Home</li>
-                        <li>Overview</li>
-                        <li>Calendar</li>
+                        <Link to='/' ><li>Home</li></Link>
+                        <Link to='/overview'><li>Overview</li></Link>
+                        <Link to='/calendar'><li>Calendar</li></Link>
                         <li className='drop-content'>About
-                        <ul>
-                                <li>Staff</li>
-                                <li>First Visit</li>
-                                <li>Contact</li>
+                            <ul>
+                                <Link to='/about/staff'><li>Staff</li></Link>
+                                <Link to='/about/first_visit'><li>First Visit</li></Link>
+                                <Link to='/about/contact'><li>Contact</li></Link>
                             </ul>
                         </li>
                         <li>Store</li>
                         <li>Cart</li>
                     </nav>
-                    <button onClick = {this.logout}>Log out</button>
+                    <button onClick={this.logout} id='login'>Log out</button>
                 </div>
             )
         } else {
             return (
                 <div>
                     <nav>
-                        <li>Home</li>
+                        <Link to='/' ><li>Home</li></Link>
                         <li className='drop-content'>About
-                        <ul>
-                                <li>Staff</li>
-                                <li>First Visit</li>
-                                <li>Contact</li>
+                            <ul>
+                                <Link to='/about/staff'><li>Staff</li></Link>
+                                <Link to='/about/first_visit'><li>First Visit</li></Link>
+                                <Link to='/about/contact'><li>Contact</li></Link>
                             </ul>
                         </li>
                         <li>Store</li>

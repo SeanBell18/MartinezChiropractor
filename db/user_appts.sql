@@ -1,0 +1,1 @@
+SELECT * FROM appointment WHERE client_id = $1 ORDER BY appt_date

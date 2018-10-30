@@ -43,7 +43,7 @@ class App extends Component {
           <Nav isAdmin={this.state.isAdmin} isUser={this.state.isUser}  resetState={this.resetState}/>
           {this.state.isAdmin ? (
             <Switch>
-              <Route path='/adminOverview' component={AdminOverview} />
+              <Route path='/overview' component={AdminOverview} />
               <Route path='/calendar' render={() => <Calendar updateLogin={this.updateLogin} isAdmin = {this.state.isAdmin} isUser = {this.state.isUser}/>} />
               <Route path='/store' component={Store} />
               <Route exact path='/' component={Home} />

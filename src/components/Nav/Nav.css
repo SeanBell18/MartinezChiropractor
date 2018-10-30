@@ -4,6 +4,7 @@ nav {
     background-color: blue;
     height: 26px;
     font-size: 24px;
+    list-style: none;
 }
 .drop-content {
     height: 26px;

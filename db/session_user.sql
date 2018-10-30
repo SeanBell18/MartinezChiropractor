@@ -1,3 +1,3 @@
 SELECT *
 FROM client
-WHERE customer_id = 1
+WHERE customer_id = $1

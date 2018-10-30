@@ -7,7 +7,7 @@ export default function Contact() {
             <h6>For additional information, to schedule or adjust an appointment or for a free consultation, call (925) 372-0700</h6>
             <div className = "address">
                 <p className = "subheader">Address: </p>
-                <p>3755 ALhambra Avenue, Suite 5</p>
+                <p>3755 Alhambra Avenue, Suite 5</p>
                 <p>Martinez, CA 94553</p>
             </div>
             <div className="hours">

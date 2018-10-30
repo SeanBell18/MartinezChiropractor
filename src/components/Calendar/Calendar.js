@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import axios from 'axios'
 import './calendar.css'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
-export default class Calendar extends Component {
+class Calendar extends Component {
     constructor() {
         super()
         this.state = {
@@ -65,9 +65,10 @@ export default class Calendar extends Component {
             alert("Sorry, cannot go back any further!")
         }
     }
-    requestAppt(time, day) {
+    requestAppt = (time, day) => {
         axios.post('/api/requestAppt', { time, day })
             .then(res => this.setState({ appt: [...res.data] }))
+        this.props.history.push('/overview')
     }
     render() {
         let { isAdmin, isUser } = this.props
@@ -124,21 +125,18 @@ export default class Calendar extends Component {
                 <div>
                     <button onClick={this.previousWeek}>Previous Week</button>
                     <button onClick={this.previousDay}>Previous Day</button>
-                    <h4>{allDays[this.state.index].format('ddd, MMM Do')}</h4>
-                    {schedule}
                     <button onClick={this.nextDay}>Next Day</button>
                     <button onClick={this.nextWeek}>Next Week</button>
+                    <h4>{allDays[this.state.index].format('ddd, MMM Do')}</h4>
+                    {schedule}
                     <div >
                     </div>
 
                 </div>
             )
         } else {
-            return (
-                <div>
-
-                </div>
-            )
+            return  null
         }
     }
 }
+export default withRouter(Calendar)

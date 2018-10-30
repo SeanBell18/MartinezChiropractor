@@ -19,7 +19,7 @@ const {
 } = process.env
 
 //connect to db
-massive(CONNECTION_STRING).then(db => app.set('db', db))
+massive(CONNECTION_STRING).then(db => app.set('db', db), console.log("DB is watching"))
 
 //middleware
 app.use(session({
@@ -107,6 +107,29 @@ app.post('/api/requestAppt', (req, res) => {
     })
 })
 
+app.get('/api/userAppts', (req, res) => {
+    const db =app.get('db')
+    let {client_id} = req.session.user
+    db.user_appts([client_id]).then((appts) => {
+        res.status(200).send(appts)
+    })
+})
+
+app.get('/api/userFinances', (req, res) => {
+    const db = app.get('db')
+    let{client_id} = req.session.user
+    db.user_payment([client_id]).then((paymentTotal)=> {
+        let pTotal = paymentTotal[0].total_payment
+        db.user_invoice([client_id]).then((invoiceInfo) => {
+            let charge_total = invoiceInfo.reduce((acc, input) => {
+                return acc + (input.price * input.qty)
+            },0)
+            let result = {payments: pTotal, bills: charge_total}
+            res.status(200).send(result)
+        })
+    }).catch(err => console.log('issues: ', err))
+})
+
 // app.get('/api/user-data', authBypass, (req, res) => {
 //     if (req.session.user) {
 //         res.status(200).send(req.session.user)
@@ -117,7 +140,7 @@ app.post('/api/requestAppt', (req, res) => {
 
 app.get('/auth/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('http://localhost:3000/#/about/first_visit')
+    res.redirect('http://localhost:3000/#/')
 })
 
 app.listen(SERVER_PORT, () => console.log(`I have eyes on port ${SERVER_PORT}`))
