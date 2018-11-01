@@ -166,7 +166,7 @@ app.get('/api/userFinances', (req, res) => {
 
 app.get('/auth/logout', (req, res) => {
     req.session.destroy();
-    res.redirect(process.env.LOCAL)
+    res.redirect(`${process.env.LOCAL}`)
 })
 
 app.listen(SERVER_PORT, () => console.log(`I have eyes on port ${SERVER_PORT}`))
