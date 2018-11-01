@@ -1,0 +1,1 @@
+UPDATE appointment SET approved = 'approved' WHERE appt_id = $1

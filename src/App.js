@@ -24,7 +24,7 @@ class App extends Component {
     this.resetState = this.resetState.bind(this)
   }
   updateLogin(val) {
-    if (val === true) {
+    if (val.data === true) {
       this.setState({ isAdmin: true })
     } else {
       this.setState({ isUser: true })

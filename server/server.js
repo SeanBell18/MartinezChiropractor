@@ -48,7 +48,7 @@ app.get('/auth/callback', async (req, res) => {
         client_secret: CLIENT_SECRET,
         code: req.query.code,
         grant_type: 'authorization_code',
-        redirect_uri: `http://${req.headers.host}/auth/callback`
+        redirect_uri: `${process.env.AUTH_PROTOCAL}://${req.headers.host}/auth/callback`
     }
     // post request with code for token
     let tokenRes = await axios.post(`https://${REACT_APP_DOMAIN}/oauth/token`, payload);
@@ -80,6 +80,33 @@ app.get('/api/isAdmin', (req, res) => {
     }
 })
 
+app.get('/api/allAppts', async (req, res) => {
+    const db =app.get('db')
+    let appts =  await db.get_appts('2017-01-01')
+    res.status(200).send(appts)
+})
+
+app.get('/api/clients', async (req, res) => {
+    const db = app.get('db')
+    let clients = await db.get_clients()
+    res.status(200).send(clients)
+})
+
+app.put('/api/approve/:id', async (req, res) => {
+    const db = app.get('db')
+    let {id} = req.params
+    await db.approve(id)
+    res.status(200)
+})
+
+app.delete('/api/deleteAppt/:id', (req, res) => {
+    const db = app.get('db')
+    let {id} = req.params
+    db.delete_appt(id).then(() => {
+        res.sendStatus(200)
+    })
+})
+
 app.get('/api/appts/:date', async (req, res) => {
     let date = req.params.date
     const db = app.get('db')
@@ -92,15 +119,12 @@ app.post('/api/requestAppt', (req, res) => {
     let { day, time } = req.body
     let { client_id } = req.session.user
     let today = moment().format('YYYY-MM-DD')
-    console.log('date and time:', day, time)
 
     db.create_invoice([client_id, today]).then(invoice => {
-        console.log('invoice: ', invoice[0].invoice_id)
         db.request_appt([client_id, invoice[0].invoice_id, day, time])
             .then(() =>
                 db.get_appts([today])
                     .then(allAppts => {
-                        console.log('allAppts: ', allAppts)
                         res.status(200).send(allAppts)
                     })
             )
@@ -140,7 +164,7 @@ app.get('/api/userFinances', (req, res) => {
 
 app.get('/auth/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('http://localhost:3000/#/')
+    res.redirect(process.env.LOCAL)
 })
 
 app.listen(SERVER_PORT, () => console.log(`I have eyes on port ${SERVER_PORT}`))

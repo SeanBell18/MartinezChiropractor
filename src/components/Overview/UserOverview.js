@@ -18,7 +18,6 @@ export default class UserOverview extends Component {
             this.setState({
                 appts: [...res.data]
             })
-            console.log('state at this point: ', this.state)
         })
         axios.get('/api/userFinances').then(res => {
             let newBalance = res.data.bills -res.data.payments
