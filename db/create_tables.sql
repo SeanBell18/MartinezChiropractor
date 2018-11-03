@@ -3,7 +3,8 @@ CREATE TABLE client (
     name varchar(100),
     auth_id text, 
     email text, 
-    phone varchar(12)
+    phone varchar(12),
+    picture text
 );
 CREATE TABLE payment (
     payment_id serial primary key, 

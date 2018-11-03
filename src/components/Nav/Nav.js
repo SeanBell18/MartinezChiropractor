@@ -23,7 +23,10 @@ class Nav extends Component {
         let { isAdmin, isUser } = this.props
         if (isAdmin) {
             return (
-                <div>
+                <div >
+                    <div className='logo'>
+
+                    </div>
                     <nav>
                         <Link to='/' ><li>Home</li></Link>
                         <Link to='/overview'><li>Overview</li></Link>
@@ -43,6 +46,9 @@ class Nav extends Component {
         } else if (isUser) {
             return (
                 <div>
+                    <div className='logo'>
+
+                    </div>
                     <nav>
                         <Link to='/' ><li>Home</li></Link>
                         <Link to='/overview'><li>Overview</li></Link>
@@ -63,6 +69,9 @@ class Nav extends Component {
         } else {
             return (
                 <div>
+                    <div className='logo'>
+                    <button onClick={this.login} id='login'>Log in</button>
+                    </div>
                     <nav>
                         <Link to='/' ><li>Home</li></Link>
                         <li className='drop-content'>About
@@ -74,7 +83,6 @@ class Nav extends Component {
                         </li>
                         <li>Store</li>
                     </nav>
-                    <button onClick={this.login} id='login'>Log in</button>
                 </div>
             )
         }

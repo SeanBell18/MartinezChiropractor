@@ -9,13 +9,18 @@ const moment = require('moment')
 const app = express();
 app.use(bodyParser.json())
 
+const aws = require('aws-sdk')
+
 const {
     SERVER_PORT,
     REACT_APP_DOMAIN,
     REACT_APP_CLIENT_ID,
     CLIENT_SECRET,
     CONNECTION_STRING,
-    SECRET
+    SECRET,
+    S3_BUCKET,
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY
 } = process.env
 
 //connect to db
@@ -98,7 +103,7 @@ app.put('/api/approve/:id', async (req, res) => {
     const db = app.get('db')
     let {id} = req.params
     await db.approve(id)
-    res.status(200)
+    res.sendStatus(200)
 })
 
 app.delete('/api/deleteAppt/:id', (req, res) => {
@@ -136,8 +141,11 @@ app.post('/api/requestAppt', (req, res) => {
 app.get('/api/userAppts', (req, res) => {
     const db =app.get('db')
     let {client_id} = req.session.user
-    db.user_appts([client_id]).then((appts) => {
-        res.status(200).send(appts)
+    db.user_picture([client_id]).then(url => {
+        db.user_appts([client_id]).then((appts) => {
+            let info = {url: url, appts: appts}
+            res.status(200).send(info)
+        })
     })
 })
 
@@ -154,6 +162,43 @@ app.get('/api/userFinances', (req, res) => {
             res.status(200).send(result)
         })
     }).catch(err => console.log('issues: ', err))
+})
+
+app.get('/api/sign-s3', (req, res) => {
+    aws.config = {
+        region: 'us-west-1',
+        accessKeyId: AWS_ACCESS_KEY_ID,
+        secretAccessKey: AWS_SECRET_ACCESS_KEY
+    }
+    const s3 = new aws.S3()
+    const fileName = req.query['file-name']
+    const fileType = req.query['file-type']
+    const s3Params ={
+        Bucket: S3_BUCKET,
+        Key: fileName,
+        Expires: 60,
+        ContentType: fileType, 
+        ACL: 'public-read'
+    }
+
+    s3.getSignedUrl('putObject', s3Params, (err, data) => {
+        if(err){
+            console.log(err)
+            return res.end()
+        }
+        const returnData = {
+            signedRequest: data, 
+            url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+        }
+        return res.send(returnData)
+    })
+})
+
+app.put('/api/uploadPicture', async (req, res) => {
+    const db = app.get('db')
+    let {url} = req.body
+    await db.upload_picture([url, req.session.user.client_id])
+    res.sendStatus(200)
 })
 
 // app.get('/api/user-data', authBypass, (req, res) => {

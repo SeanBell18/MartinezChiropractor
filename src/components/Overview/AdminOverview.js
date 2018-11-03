@@ -18,7 +18,8 @@ export default class AdminOverview extends Component {
         this.apptProcess()
     }
     apptProcess = async () => {
-        await axios.get('/api/allAppts').then(res => this.setState({ allAppts: [...res.data] }))
+        await axios.get('/api/allAppts').then(res => this.setState({ allAppts: [...res.data], pending: [], apptToday: 0 }))
+        console.log('mapping over allappts: ', this.state.allAppts)
         this.state.allAppts.map((appt) => {
             if (appt.appt_date === moment().format('YYYY-MM-DD')) {
                 this.setState({ apptToday: this.state.apptToday + 1 })
@@ -30,14 +31,14 @@ export default class AdminOverview extends Component {
             }
             return null
         })
-        console.log('state after mount: ', this.state)
-    } 
+    }
     handleApprove = async (id) => {
         await axios.put(`/api/approve/${id}`).then(res => {
             this.apptProcess()
         })
+
     }
-    handleDelete = async (id)=> {
+    handleDelete = async (id) => {
         await axios.delete(`/api/deleteAppt/${id}`).then(res => {
             this.apptProcess()
         })
@@ -49,6 +50,7 @@ export default class AdminOverview extends Component {
     //     })
     // }
     render() {
+        console.log('state after mount: ', this.state)
         return (
             <div>
                 <h1>Overview</h1>
@@ -56,7 +58,7 @@ export default class AdminOverview extends Component {
                 <p>Appointments awaiting approval: </p>
                 {this.state.pending.map(appt => {
                     return (
-                        <div key = {appt.appt_id}>
+                        <div key={appt.appt_id}>
                             <p>Appoinement Date: {appt.appt_date}</p>
                             <p>Appointment Time: {appt.appt_time}</p>
                             <button onClick={() => this.handleApprove(appt.appt_id)}>Approve</button>
