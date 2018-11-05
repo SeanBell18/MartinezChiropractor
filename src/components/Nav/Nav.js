@@ -25,7 +25,7 @@ class Nav extends Component {
             return (
                 <div >
                     <div className='logo'>
-
+                        <button onClick={this.logout} id='login'>Log out</button>
                     </div>
                     <nav>
                         <Link to='/' ><li>Home</li></Link>
@@ -40,14 +40,13 @@ class Nav extends Component {
                         </li>
                         <li>Store</li>
                     </nav>
-                    <button onClick={this.logout} id='login'>Log out</button>
                 </div>
             )
         } else if (isUser) {
             return (
                 <div>
                     <div className='logo'>
-
+                        <button onClick={this.logout} id='login'>Log out</button>
                     </div>
                     <nav>
                         <Link to='/' ><li>Home</li></Link>
@@ -61,16 +60,14 @@ class Nav extends Component {
                             </ul>
                         </li>
                         <li>Store</li>
-                        <li>Cart</li>
                     </nav>
-                    <button onClick={this.logout} id='login'>Log out</button>
                 </div>
             )
         } else {
             return (
                 <div>
                     <div className='logo'>
-                    <button onClick={this.login} id='login'>Log in</button>
+                        <button onClick={this.login} id='login'>Log in</button>
                     </div>
                     <nav>
                         <Link to='/' ><li>Home</li></Link>

@@ -1,0 +1,36 @@
+.subtitle {
+    text-align: left;
+    margin-left: 10vw;
+}
+.first_visit p {
+    margin-right: 10vw;
+    font-size: 26px
+}
+ol {
+    text-align: left;
+    margin-left: 20vw;
+    font-size: 22px;
+    list-style-type: square;
+    line-height: 35px
+}
+h6 {
+    margin-left: 10vw;
+    font-size: 26px;
+    margin-right: 10vw
+}
+img {
+    margin-left: 15vw;
+    width: 250px;
+}
+.description {
+    display: flex;
+    flex-direction: row;
+}
+.description p {
+    margin: 5vh 10vw 0 5vw;
+    line-height: 35px
+} 
+h2 {
+    font-size: 30px;
+    margin-left: 15vw
+}

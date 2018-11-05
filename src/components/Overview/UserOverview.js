@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom'
 import { v4 as randomString } from 'uuid'
 import Dropzone from 'react-dropzone'
 import { GridLoader } from 'react-spinners'
-import StripeCheckout from 'react-stripe-checkout'
+import './UOverview.css'
+// import StripeCheckout from 'react-stripe-checkout'
 
 export default class UserOverview extends Component {
     constructor() {
@@ -16,7 +17,8 @@ export default class UserOverview extends Component {
             isUploading: false,
             image: '',
             url: 'http://via.placeholder.com/200x200',
-            value: ''
+            value: '',
+            amount: 0
         }
         this.componentDidMount = this.componentDidMount.bind(this)
     }
@@ -64,19 +66,35 @@ export default class UserOverview extends Component {
             console.log(err)
         })
     }
-    makePayment = () => {
-
-    }
+    // onToken = (token) => {
+    //     token.card = void 0
+    //     axios.post('api/payment', {token, amount: this.state.amount})
+    //     .then(res => {
+    //         console.log(res)
+    //     })
+    // }
+    // handlePayment = () => {
+    //     console.log("paid!")
+    //     return (
+    //         <StripeCheckout 
+    //         name="MTZ Chiropractic"
+    //         description="payment towards balance"
+    //         image="./../images/logo.PNG"
+    //         token={this.onToken}
+    //         stripeKey={process.env.REACT_APP_STRIPE_KEY}
+    //         amount={this.state.amount} />
+    //     )
+    // }
     render() {
         const today = moment().format('YYYY-MM-DD')
         let futureAppts = this.state.appts.filter(appt => appt.appt_date >= today)
         let pastAppts = this.state.appts.filter(appt => appt.appt_date < today)
         return (
-            <div>
-                <h2>Welcome User!</h2>
-                <img src={this.state.url} alt='' width='200px' />
+            <div className='user'>
+                <h1>Welcome User!</h1>
+                <img src={this.state.url} alt='' width='200px'/>
                 {this.state.url === 'http://via.placeholder.com/200x200' ?
-                    <Dropzone
+                    <Dropzone className='dropzone'
                         onDropAccepted={this.getSignedRequest}
                         style={{
                             position: 'relative',
@@ -92,27 +110,31 @@ export default class UserOverview extends Component {
                             textAlign: 'center'
                         }}
                         accept='image/*'
-                        multiple={false}>
+                        multiple={false} >
                         {this.state.isUploading ?
                             <GridLoader />
-                            : <p>Drop file or click here to add your image!</p>}
+                            : <p className='drop_invite'>Drop file or click here to add your image!</p>}
                     </Dropzone>
                     : null
                 }
                 {futureAppts[0] ?
-                    <h5>Your next appointment is {futureAppts[0].appt_date}</h5>
-                    : <div><h5>You do not have any future appointments scheduled</h5>
-                        <Link to='/calendar'>
+                    <h5>Your next appointment is {futureAppts[0].appt_date} at {futureAppts[0].appt_time}</h5>
+                    : <div className='user'><h5>You do not have any future appointments scheduled</h5>
+                        <Link to='/calendar' className='toSchedule'>
                             <button>Schedule Appointment</button>
                         </Link>
                     </div>
                 }
-                {pastAppts.pop() ?
-                    <h5>Your last appointment was {pastAppts.pop().appt_date}</h5>
+                {pastAppts[pastAppts.length-1] ?
+                    <h5>Your last appointment was {pastAppts[pastAppts.length-1].appt_date} at {pastAppts[pastAppts.length-1].appt_time}</h5>
                     : <h5>You have had no previous appointments</h5>
                 }
                 <h5>Your current balance is: ${this.state.balance}</h5>
-                <button>Make Payment</button>
+                {/* <h6>In order to make a payment, please put the amount below(ex. 25.00), and click "Make Payment"</h6>
+                <input onChange= {(e) => {
+                this.setState({amount:(e.target.value * 100)}); console.log(this.state.amount)
+                    }}/>
+                    <button onClick={this.handlePayment}>Make Payment</button> */}
             </div>
         )
     }

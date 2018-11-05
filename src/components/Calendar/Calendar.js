@@ -75,12 +75,12 @@ class Calendar extends Component {
         if (isUser || isAdmin) {
 
             const currentDay = moment().day();
-
+            //an array of all available days to schedule an appt. each value, a day. 
             let allDays = []
             for (let i = 0; i < 91; i++) {
                 allDays.push(moment().day(currentDay).add('day', i))
             }
-
+            console.log(currentDay)
             let arr = this.state.appts.filter(appt => appt.appt_date == moment().add('day', this.state.index).format('YYYY-MM-DD'))
 
             let day = Array(39).fill(0)
@@ -89,6 +89,7 @@ class Calendar extends Component {
                 let time = moment().startOf('day').add({ 'hour': 8, 'minute': (15 + i * 15) })
                 // let exist = arr.findIndex(appt => appt.appt_time === time.format('hh:mm:ss'))
                 let exist = 0
+                // if(allDays[].day() ===)
                 for (let ii = 0; ii < arr.length; ii++) {
                     if (arr[ii].appt_time === time.format('HH:mm:ss')) {
                         exist += 1;
@@ -123,11 +124,13 @@ class Calendar extends Component {
 
             return (
                 <div>
-                    <button onClick={this.previousWeek}>Previous Week</button>
-                    <button onClick={this.previousDay}>Previous Day</button>
-                    <button onClick={this.nextDay}>Next Day</button>
-                    <button onClick={this.nextWeek}>Next Week</button>
-                    <h4>{allDays[this.state.index].format('ddd, MMM Do')}</h4>
+                    <div className='date'>
+                        <button onClick={this.previousWeek}>Previous Week</button>
+                        <button onClick={this.previousDay}>Previous Day</button>
+                        <h4>{allDays[this.state.index].format('ddd, MMM Do')}</h4>
+                        <button onClick={this.nextDay}>Next Day</button>
+                        <button onClick={this.nextWeek}>Next Week</button>
+                    </div>
                     {schedule}
                     <div >
                     </div>
@@ -135,7 +138,7 @@ class Calendar extends Component {
                 </div>
             )
         } else {
-            return  null
+            return null
         }
     }
 }

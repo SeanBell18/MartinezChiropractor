@@ -38,7 +38,7 @@ class App extends Component {
   render() {
     return (
       <HashRouter >
-        <div>
+        <div id='app'>
           <Nav isAdmin={this.state.isAdmin} isUser={this.state.isUser}  resetState={this.resetState}/>
           {this.state.isAdmin ? (
             <Switch>

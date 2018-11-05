@@ -5,11 +5,11 @@ const session = require('express-session')
 const axios = require('axios')
 const massive = require('massive')
 const moment = require('moment')
+const aws = require('aws-sdk')
 
 const app = express();
 app.use(bodyParser.json())
 
-const aws = require('aws-sdk')
 
 const {
     SERVER_PORT,
@@ -212,6 +212,29 @@ app.put('/api/uploadPicture', async (req, res) => {
 app.get('/auth/logout', (req, res) => {
     req.session.destroy();
     res.redirect(`${process.env.LOCAL}`)
+})
+
+app.post('/api/payment', (req, res) => {
+    const db =app.get('db')
+    const {amount, token:{id}} = req.body
+    stripe.charges.create(
+        {
+            amount: amount,
+            currency: "usd",
+            source: id,
+            description: "Payment made to Martinez Chiropractic"
+        },
+        async (err, charge) => {
+            if(err) {
+                console.log(err)
+                return res.status(500).send(err)
+            } else {
+                console.log(charge)
+                await db.create_payment(req.session.user.client_id, (amount/100), moment().format('YYYY-MM-DD'))
+                return res.status(200).send(charge)
+            }
+        }
+    )
 })
 
 app.listen(SERVER_PORT, () => console.log(`I have eyes on port ${SERVER_PORT}`))
