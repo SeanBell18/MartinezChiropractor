@@ -18,7 +18,8 @@ export default class UserOverview extends Component {
             image: '',
             url: 'http://via.placeholder.com/200x200',
             value: '',
-            amount: 0
+            amount: 0,
+            name: ''
         }
         this.componentDidMount = this.componentDidMount.bind(this)
     }
@@ -27,7 +28,8 @@ export default class UserOverview extends Component {
             console.log('results from endpoint: ', res.data)
             this.setState({
                 appts: [...res.data.appts],
-                url: res.data.url[0].picture
+                url: res.data.url,
+                name: res.data.name
             })
         })
         axios.get('/api/userFinances').then(res => {
@@ -91,7 +93,7 @@ export default class UserOverview extends Component {
         let pastAppts = this.state.appts.filter(appt => appt.appt_date < today)
         return (
             <div className='user'>
-                <h1>Welcome User!</h1>
+                <h1>Welcome {this.state.name}!</h1>
                 <img src={this.state.url} alt='' width='200px'/>
                 {this.state.url === 'http://via.placeholder.com/200x200' ?
                     <Dropzone className='dropzone'

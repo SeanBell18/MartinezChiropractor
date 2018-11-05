@@ -1,1 +1,1 @@
-SELECT picture FROM client WHERE client_id = $1;
+SELECT name,picture FROM client WHERE client_id = $1;

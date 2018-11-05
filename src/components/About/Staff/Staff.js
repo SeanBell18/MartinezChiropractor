@@ -23,8 +23,8 @@ export default function Staff() {
                 <img src={require('../../images/receptionist.jpg')} alt='Receptionist Annalyse' />
                 <p>When you come in or call Martinez Chiropractic you will be greeted by Annalyse who has been working for thisoffice for over nine years. She will be happy to assist you with all your service needs including insurance coverage, car accident cases, worker’s compensation injuries, claims, payment option’s or any other questions you may have.</p>
             </div>
-            <h1 className='subtitle' v>First Visit</h1>
-            <h1 className='subtitle'>Contact</h1>
+            <Link to ='/about/first_visit'><h1 className='subtitle'v>First Visit</h1></Link>
+            <Link to='/about/contact'><h1 className='subtitle'>Contact</h1></Link>
         </div>
     )
 }

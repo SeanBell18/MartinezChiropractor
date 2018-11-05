@@ -5,8 +5,8 @@ import '../About.css'
 export default function Contact() {
     return (
         <div>
-            <h1 className='subtitle'>Staff</h1>
-            <h1 className='subtitle'v>First Visit</h1>
+            <Link to='/about/staff'><h1 className='subtitle'>Staff</h1></Link>
+            <Link to ='/about/first_visit'><h1 className='subtitle'v>First Visit</h1></Link>
             <h1 className='subtitle'>Contact</h1>
             <h6>For additional information, to schedule or adjust an appointment or for a free consultation, call (925) 372-0700</h6>
             <div className = "address">
@@ -23,7 +23,7 @@ export default function Contact() {
             <p>Friday: 8:15a-6:00p</p>
             <p>Saturday by appointment</p>
             </div>
-            <img src={require('../../images/mtz_Chiro_map.PNG')} alt='Map to Martinez Chiropractic in Martinez, CA' />
+            <img src={require('../../images/mtz_Chiro_map.PNG')} alt='Map to Martinez Chiropractic in Martinez, CA' id= 'map' />
         </div>
     )
 } 

@@ -141,9 +141,10 @@ app.post('/api/requestAppt', (req, res) => {
 app.get('/api/userAppts', (req, res) => {
     const db =app.get('db')
     let {client_id} = req.session.user
-    db.user_picture([client_id]).then(url => {
+    db.user_picture([client_id]).then(client => {
         db.user_appts([client_id]).then((appts) => {
-            let info = {url: url, appts: appts}
+            console.log('client: ',client)
+            let info = {url: client[0].picture, name: client[0].name, appts: appts}
             res.status(200).send(info)
         })
     })

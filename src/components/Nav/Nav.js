@@ -31,14 +31,14 @@ class Nav extends Component {
                         <Link to='/' ><li>Home</li></Link>
                         <Link to='/overview'><li>Overview</li></Link>
                         <Link to='/calendar'><li>Calendar</li></Link>
-                        <li className='drop-content'>About
+                        <Link to='/About'><li className='drop-content'>About
                             <ul >
                                 <Link to='/about/staff'><li>Staff</li></Link>
                                 <Link to='/about/first_visit'><li>First Visit</li></Link>
                                 <Link to='/about/contact'><li>Contact</li></Link>
                             </ul>
-                        </li>
-                        <li>Store</li>
+                        </li></Link>
+                        <Link to='/store'><li>Store</li></Link>
                     </nav>
                 </div>
             )
@@ -52,14 +52,14 @@ class Nav extends Component {
                         <Link to='/' ><li>Home</li></Link>
                         <Link to='/overview'><li>Overview</li></Link>
                         <Link to='/calendar'><li>Calendar</li></Link>
-                        <li className='drop-content'>About
+                        <Link to='/about'><li className='drop-content'>About
                             <ul>
                                 <Link to='/about/staff'><li>Staff</li></Link>
                                 <Link to='/about/first_visit'><li>First Visit</li></Link>
                                 <Link to='/about/contact'><li>Contact</li></Link>
                             </ul>
-                        </li>
-                        <li>Store</li>
+                        </li></Link>
+                        <Link to='/store'><li>Store</li></Link>
                     </nav>
                 </div>
             )
@@ -71,14 +71,14 @@ class Nav extends Component {
                     </div>
                     <nav>
                         <Link to='/' ><li>Home</li></Link>
-                        <li className='drop-content'>About
+                        <Link to='/about'><li className='drop-content'>About
                             <ul>
                                 <Link to='/about/staff'><li>Staff</li></Link>
                                 <Link to='/about/first_visit'><li>First Visit</li></Link>
                                 <Link to='/about/contact'><li>Contact</li></Link>
                             </ul>
-                        </li>
-                        <li>Store</li>
+                        </li></Link>
+                        <Link to='/store'><li>Store</li></Link>
                     </nav>
                 </div>
             )
