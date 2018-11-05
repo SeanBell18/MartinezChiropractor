@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import moment from 'moment'
+import './AOverview.css'
 
 export default class AdminOverview extends Component {
     constructor() {
@@ -61,8 +62,8 @@ export default class AdminOverview extends Component {
                         <div key={appt.appt_id}>
                             <p>Appoinement Date: {appt.appt_date}</p>
                             <p>Appointment Time: {appt.appt_time}</p>
-                            <button onClick={() => this.handleApprove(appt.appt_id)}>Approve</button>
-                            <button onClick={() => this.handleDelete(appt.appt_id)}>Delete</button>
+                            <button className='admin_button' onClick={() => this.handleApprove(appt.appt_id)}>Approve</button>
+                            <button className='admin_button1' onClick={() => this.handleDelete(appt.appt_id)}>Delete</button>
                         </div>
                     )
                 })}
